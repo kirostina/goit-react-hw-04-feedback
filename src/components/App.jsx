@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import FeedbackOptions from 'components/FeedbackOption/FeedbackOptions';
 import Statistics from 'components/Statistics/Statistics';
 import Section from 'components/Section/Section';
@@ -10,29 +10,30 @@ export default function App() {
   const [bad, setBad] = useState(0);
   const stateObj = { good, neutral, bad };
 
-  const countTotalFeedback = () => {
-    const sum = good + neutral + bad;
-    return sum;
+
+  const addReviewByClick = evt => {
+    if (evt.target) {
+    const btnName = evt.target.textContent.toLowerCase();
+      switch (btnName) {
+        case 'good':
+          setGood(prevState => prevState + 1);
+          break;
+        case 'neutral':
+          setNeutral(prevState => prevState + 1);
+          break;
+        case 'bad':
+          setBad(prevState => prevState + 1);
+          break;
+        default:
+          return;
+      }
+    }
+  };
+    const countTotalFeedback = () => {
+    return good + neutral + bad;
   };
   const countPositiveFeedbackPercentage = () => {
     return `${ Math.round((good * 100) / countTotalFeedback() || 0) }%`;
-  };
-
-  const addReviewByClick = evt => {
-    const btnName = evt.target.innerText.toLowerCase();
-    switch (btnName) { 
-      case 'good':
-        setGood(prevState => prevState + 1);
-        break;
-      case 'neutral':
-        setNeutral(prevState => prevState + 1);
-        break;
-      case 'bad':
-        setBad(prevState => prevState + 1);
-        break;
-      default:
-        return;
-    }
   };
 
     return (
